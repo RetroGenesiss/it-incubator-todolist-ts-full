@@ -1,25 +1,21 @@
-import React, {ChangeEvent, useState} from 'react';
+import React, {ChangeEvent, memo, useState} from 'react';
 
 type PropsType = {
     oldTitle: string
     callBack: (title: string) => void
 }
 
-const EditableSpan = (props: PropsType) => {
+const EditableSpan = memo((props: PropsType) => {
     const [edit, setEdit] = useState(false)
-    const [newTitle, setNewTitle] = useState(props.oldTitle)
+    const [newTitle, setNewTitle] = useState('')
 
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setNewTitle(e.currentTarget.value)
     }
 
-    const addTask = () => {
-        props.callBack(newTitle)
-    }
-
     const editHandler = () => {
         setEdit(!edit) // верни мне не edit
-        addTask()
+        props.callBack(newTitle)
     }
 
     return (
@@ -32,6 +28,6 @@ const EditableSpan = (props: PropsType) => {
             />
             : <span onDoubleClick={editHandler}>{props.oldTitle}</span>
     );
-};
+});
 
 export default EditableSpan;

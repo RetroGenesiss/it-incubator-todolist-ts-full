@@ -1,13 +1,15 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import React, {ChangeEvent, KeyboardEvent, memo, useState} from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 
 
-type PropsType = {
+export type AddItemFormPropsType = {
     addItem: (title: string) => void
 }
 
-const AddItemForm = (props: PropsType) => {
+const AddItemForm = memo((props: AddItemFormPropsType) => {
+    console.log('AddItemForm rendered')
+
     let [title, setTitle] = useState("")
     let [error, setError] = useState<string | null>(null)
 
@@ -25,7 +27,9 @@ const AddItemForm = (props: PropsType) => {
     }
 
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        setError(null);
+        if (error !== null) {
+            setError(null)
+        }
         if (e.charCode === 13) {
             addTask();
         }
@@ -60,6 +64,6 @@ const AddItemForm = (props: PropsType) => {
             {/*{error && <div className="error-message">{error}</div>}*/}
         </div>
     );
-};
+})
 
 export default AddItemForm;
